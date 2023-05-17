@@ -223,7 +223,7 @@ const resolvers = {
             }
             await Product.findOneAndDelete({ _id: id });
 
-            return `${product.name} was deleted`
+            return `${product.id} was deleted`
         },
         newClient: async (_, { input }, ctx) => {
             const { email } = input
