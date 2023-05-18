@@ -83,7 +83,7 @@ const resolvers = {
             try {
                 const orders = await Order.find({ 
                     salesman: ctx.user.id.toString()
-                });
+                }).populate('client');
                 return orders;
             } catch (error) {
                 console.log(error);
