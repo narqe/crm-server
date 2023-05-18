@@ -10,6 +10,15 @@ connectDb();
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    plugins: [
+    // Install a landing page plugin based on NODE_ENV
+    process.env.NODE_ENV === 'production'
+        ? ApolloServerPluginLandingPageProductionDefault({
+            graphRef: 'my-graph-id@my-graph-variant',
+            footer: false,
+        })
+        : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
+    ],
     context: async ({ req }) => {
         const token = req.headers['authorization'] || '';
         if (token) {
