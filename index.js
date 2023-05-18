@@ -5,12 +5,15 @@ const connectDb = require('./config/db');
 const jwt = require('jsonwebtoken');
 const express = require('express');
 require('dotenv').config({ path: '.variables.env' });
-const cors = require('cors');
 
 connectDb();
 
 const app = express();
 const server = new ApolloServer({
+    cors: {
+        origin: '*',			// <- allow request from all domains
+        credentials: true
+    },	
     typeDefs,
     resolvers,
     context: async ({ req }) => {
@@ -28,20 +31,7 @@ const server = new ApolloServer({
     }
 });
 
-server.re
-
 // start server
 server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
     console.log(`Servidor listo: ${url} - ${process.env.NODE_ENV}`);
 })
-
-app.use(
-    '/graphql',
-    cors<cors.CorsRequest>({ 
-        origin: [
-            'https://crmclient-narqe.vercel.app/', 
-            'https://agile-meadow-64078.herokuapp.com/', 
-            'https://studio.apollographql.com'
-        ] 
-    }),
-);
