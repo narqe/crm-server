@@ -4,6 +4,7 @@ const resolvers = require('./db/resolvers');
 const connectDb = require('./config/db');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: 'variables.env' });
+import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
 
 connectDb();
 
