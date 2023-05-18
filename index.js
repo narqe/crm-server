@@ -3,12 +3,10 @@ const typeDefs = require('./db/schema');
 const resolvers = require('./db/resolvers');
 const connectDb = require('./config/db');
 const jwt = require('jsonwebtoken');
-const express = require('express');
 require('dotenv').config({ path: '.variables.env' });
 
 connectDb();
 
-const app = express();
 const server = new ApolloServer({
     cors: {
         origin: '*',			// <- allow request from all domains
