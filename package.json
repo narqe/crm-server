@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "nodemon run build"
   },
   "author": "",
   "license": "ISC",
