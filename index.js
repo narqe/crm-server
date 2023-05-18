@@ -10,8 +10,9 @@ connectDb();
 const server = new ApolloServer({
     cors: {
         origin: '*',			// <- allow request from all domains
-        credentials: true
-    },	
+        credentials: true,
+        headers: true,
+    },
     typeDefs,
     resolvers,
     context: async ({ req }) => {
