@@ -16,13 +16,12 @@ async function startApolloServer() {
     app.use(cors());
     app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
         res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
         next();
     });
 
     const server = new ApolloServer({
-        cache: "bounded",
         persistedQueries: false,
         typeDefs,
         resolvers,
@@ -45,9 +44,10 @@ async function startApolloServer() {
 
     server.applyMiddleware({ app });
 
+    let port = process.env.PORT || 4000;
     // start server
-    app.listen({ port: process.env.PORT || 4000 }, () => {
-        console.log(`Servidor listo en: ${process.env.PORT} - ${process.env.NODE_ENV}`);
+    app.listen(port, () => {
+        console.log(`Servidor listo en el puerto: ${port} - ${process.env.NODE_ENV}`);
     })
 }
 
