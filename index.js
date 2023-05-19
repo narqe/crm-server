@@ -5,8 +5,6 @@ const connectDb = require('./config/db');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: '.variables.env' });
 
-connectDb();
-
 const server = new ApolloServer({
     cors: {
         origin: '*',			// <- allow request from all domains
@@ -34,3 +32,5 @@ const server = new ApolloServer({
 server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
     console.log(`Servidor listo: ${url} - ${process.env.NODE_ENV}`);
 })
+
+connectDb();
