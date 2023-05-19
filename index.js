@@ -3,11 +3,13 @@ const typeDefs = require('./db/schema');
 const resolvers = require('./db/resolvers');
 const connectDb = require('./config/db');
 const jwt = require('jsonwebtoken');
+
 require('dotenv').config({ path: '.variables.env' });
 
 connectDb();
 
 const server = new ApolloServer({
+    cache: "bounded",
     persistedQueries: false,
     typeDefs,
     resolvers,
@@ -26,9 +28,11 @@ const server = new ApolloServer({
     }
 });
 
-let port = process.env.PORT || 4000;
-
 // start server
-server.listen(port).then(({ url }) => {
+let port = process.env.PORT || 4000;
+let host = 'https://agile-meadow-64078.herokuapp.com'
+
+server.listen(port, host).then(({ url }) => {
     console.log(`Servidor listo en: ${url}`);
 })
+
