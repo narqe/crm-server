@@ -7,8 +7,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: '.variables.env' });
 
 connectDb();
-async function startApolloServer() {
 
+async function startApolloServer() {
     const app = express();
 
     app.use((req, res, next) => {
