@@ -4,7 +4,7 @@ const Client = require("../models/Client");
 const Order = require("../models/Order");
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-require('dotenv').config({ path: '../variables.env' });
+require('dotenv').config({ path: 'variables.env' });
 
 const createToken = (user, token, expiresIn) => {
     const { id, email, name, lastname } = user;
@@ -54,7 +54,7 @@ const resolvers = {
         getClientsVendedor: async (_, {}, ctx) => {
             try {
                 const clients = await Client.find({ 
-                    salesman: ctx.user?.id.toString()
+                    salesman: ctx.user.id.toString()
                 });
                 return clients;
             } catch (error) {

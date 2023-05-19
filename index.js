@@ -4,13 +4,11 @@ const resolvers = require('./db/resolvers');
 const connectDb = require('./config/db');
 const jwt = require('jsonwebtoken');
 
-require('dotenv').config({ path: '.variables.env' });
+require('dotenv').config({ path: 'variables.env' });
 
 connectDb();
 
 const server = new ApolloServer({
-    cache: "bounded",
-    persistedQueries: false,
     typeDefs,
     resolvers,
     context: async ({ req }) => {
@@ -34,4 +32,5 @@ let port = process.env.PORT || 4000;
 server.listen(port).then(({ url }) => {
     console.log(`Servidor listo en: ${url}`);
 })
+
 
