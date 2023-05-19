@@ -19,6 +19,8 @@ async function startApolloServer() {
     });
 
     const server = new ApolloServer({
+        cache: "bounded",
+        persistedQueries: false,
         typeDefs,
         resolvers,
         context: async ({ req }) => {
