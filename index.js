@@ -30,9 +30,8 @@ const server = new ApolloServer({
 
 // start server
 let port = process.env.PORT || 4000;
-let host = 'https://agile-meadow-64078.herokuapp.com'
 
-server.listen(port, host).then(({ url }) => {
+server.listen(port).then(({ url }) => {
     console.log(`Servidor listo en: ${url}`);
 })
 
