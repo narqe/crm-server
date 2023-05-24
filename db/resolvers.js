@@ -2,8 +2,12 @@ const User = require("../models/User");
 const Product = require("../models/Product");
 const Client = require("../models/Client");
 const Order = require("../models/Order");
+const Blog = require("../models/Blog");
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Grid = require('gridfs-stream');
+const fs = require('fs');
+const { log } = require("console");
 require('dotenv').config({ path: 'variables.env' });
 
 const createToken = (user, token, expiresIn) => {
@@ -89,7 +93,7 @@ const resolvers = {
                 console.log(error);
             }
         },
-        getOrder:  async (_, { id }, ctx) => {
+        getOrder: async (_, { id }, ctx) => {
             const order = await Order.findById(id);
             if (!order) {
                 throw new Error('Order does not exist');
@@ -150,9 +154,38 @@ const resolvers = {
             ]);
             
             return salesman;
-        }
-    },
+        },
+        getBlogs: async () => {
+            try {
+                const blogs = await Blog.find({});
+                return blogs;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        getBlogById: async (_, { id }) => {
+            try {
+                const blog = await Blog.findById(id);
+                if(!blog) {
+                    throw new Error('ID do not exist')
+                }
+                return blog;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+    },  
     Mutation: {
+        newBlog: async (_, { input }) => {
+            const newBlog = new Blog(input);
+
+            try {
+                const result = await newBlog.save();
+                return result;
+            } catch (error) {
+                console.log(error);
+            }
+        },
         newUser: async (_, { input }) => {
             const { email, password } = input;
             const salt = await bcryptjs.genSalt(10);
@@ -188,8 +221,6 @@ const resolvers = {
             return {
                 token: createToken(isUserExit, process.env.SECRET, '24h')
             }
-
-
         },
         newProduct: async (_, { input }) => {
             try {

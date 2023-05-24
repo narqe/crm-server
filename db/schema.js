@@ -1,6 +1,21 @@
 const { gql } = require('apollo-server');
 // Schema
-const typeDefs = gql`
+const typeDefs = gql`  
+    type Blog {
+        id: ID
+        title: String
+        author: String
+        content: String
+        summary: String
+        createdOn: String
+    }
+
+    type File {
+        filename: String!
+        mimetype: String!
+        encoding: String!
+    }
+    
     type User {
         id: ID
         name: String
@@ -56,6 +71,13 @@ const typeDefs = gql`
     type TopSalesman {
         total: Float
         salesman: [User]
+    }
+
+    input BlogInput {
+        title: String!
+        content: String!
+        summary: String!
+        author: String
     }
 
     input UserInput {
@@ -127,6 +149,10 @@ const typeDefs = gql`
         #AdvancedSearches
         getTopClients: [TopClients]
         getTopSalesman: [TopSalesman]
+
+        #Blogs
+        getBlogs: [Blog]
+        getBlogById(id: ID!): Blog
     }
 
     type Mutation {
@@ -148,6 +174,9 @@ const typeDefs = gql`
         newOrder(input: OrderInput): Order
         updateOrder(id: ID!, input: OrderInput): Order
         deleteOrder(id: ID!): String
+
+        #Blogs
+        newBlog(input: BlogInput): Blog
     }
 `;
 
