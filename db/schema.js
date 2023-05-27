@@ -1,6 +1,7 @@
-const { gql } = require('apollo-server');
+const { gql } = require('apollo-server-express');
+
 // Schema
-const typeDefs = gql`  
+const typeDefs = gql`
     type Blog {
         id: ID
         title: String
@@ -8,14 +9,9 @@ const typeDefs = gql`
         content: String
         summary: String
         createdOn: String
+        urlImage: String
     }
 
-    type File {
-        filename: String!
-        mimetype: String!
-        encoding: String!
-    }
-    
     type User {
         id: ID
         name: String
@@ -63,6 +59,10 @@ const typeDefs = gql`
         token: String
     }
 
+    type FileUploaded {
+        url: String
+    }
+
     type TopClients {
         total: Float
         client: [Client]
@@ -78,6 +78,7 @@ const typeDefs = gql`
         content: String!
         summary: String!
         author: String
+        urlImage: String
     }
 
     input UserInput {
@@ -126,6 +127,12 @@ const typeDefs = gql`
         state: OrderState
     }
 
+    input FileInput {
+        name: String!
+        type: String!
+        size: Int!
+    }
+    
     type Query {
         #Users
         getUser: User
@@ -177,6 +184,11 @@ const typeDefs = gql`
 
         #Blogs
         newBlog(input: BlogInput): Blog
+        updateBlog(id: ID!, input: BlogInput): Blog
+        deleteBlog(id: ID!): String
+
+        #Files
+        uploadFile(input: FileInput): FileUploaded!
     }
 `;
 

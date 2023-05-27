@@ -3,12 +3,15 @@ const typeDefs = require('./db/schema');
 const resolvers = require('./db/resolvers');
 const connectDb = require('./config/db');
 const jwt = require('jsonwebtoken');
-
+const aws = require('aws-sdk');
 require('dotenv').config({ path: 'variables.env' });
 
 connectDb();
 
+aws.config.loadFromPath('./aws-config.json');
+
 const server = new ApolloServer({
+    uploads: true,
     typeDefs,
     resolvers,
     context: async ({ req }) => {
