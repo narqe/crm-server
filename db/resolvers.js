@@ -63,7 +63,7 @@ const resolvers = {
         getClientsVendedor: async (_, {}, ctx) => {
             try {
                 const clients = await Client.find({ 
-                    salesman: ctx.user.id.toString()
+                    salesman: ctx.user?.id.toString()
                 });
                 return clients;
             } catch (error) {
