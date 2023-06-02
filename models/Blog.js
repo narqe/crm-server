@@ -18,9 +18,10 @@ const BlogSchema = new mongoose.Schema({
         required: true,
         maxLength: 500
     },
-    urlImage: {
-        type: String,
-        required: false
+    category: {
+        type: Array,
+        required: false,
+        default: ['OTHER']
     },
     createdOn: {
         type: Date,
@@ -28,4 +29,4 @@ const BlogSchema = new mongoose.Schema({
     },
 });
 
-module.exports = Upload = mongoose.model("blog", BlogSchema);
+module.exports = Blog = mongoose.model("blog", BlogSchema);

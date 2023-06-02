@@ -3,6 +3,7 @@ const Product = require("../models/Product");
 const Client = require("../models/Client");
 const Order = require("../models/Order");
 const Blog = require("../models/Blog");
+const Category = require("../models/Category");
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const aws = require('aws-sdk');
@@ -176,6 +177,25 @@ const resolvers = {
                     throw new Error('ID do not exist')
                 }
                 return blog;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        getLastBlogsByCat: async (_, { cat }) => {
+            try {
+                const blog = await Blog.find({ category: cat }).limit(3);
+                if(!blog) {
+                    throw new Error(`category '${cat}' do not exist`)
+                }
+                return blog;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        getBlogCategories: async () => {
+            try {
+                const categories = await Category.find({})
+                return categories;
             } catch (error) {
                 console.log(error);
             }

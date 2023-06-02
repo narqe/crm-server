@@ -9,7 +9,7 @@ const typeDefs = gql`
         content: String
         summary: String
         createdOn: String
-        urlImage: String
+        category: [CatInput]
     }
 
     type User {
@@ -73,12 +73,18 @@ const typeDefs = gql`
         salesman: [User]
     }
 
+
+    type Categories {
+        title: CatInput
+        id: ID
+    }
+
     input BlogInput {
         title: String!
         content: String!
         summary: String!
         author: String
-        urlImage: String
+        category: [CatInput]
     }
 
     input UserInput {
@@ -118,6 +124,16 @@ const typeDefs = gql`
         PENDING
         COMPLETED
         CANCELLED
+    }
+
+    enum CatInput {
+        MUSIC
+        GAMES
+        SERIES
+        CINEMA
+        EVENTS
+        BOOKS
+        OTHER
     }
 
     input OrderInput {
@@ -160,6 +176,8 @@ const typeDefs = gql`
         #Blogs
         getBlogs: [Blog]
         getBlogById(id: ID!): Blog
+        getLastBlogsByCat(cat: CatInput): [Blog]
+        getBlogCategories: [Categories]
     }
 
     type Mutation {
