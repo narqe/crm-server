@@ -6,7 +6,6 @@ const Blog = require("../models/Blog");
 const Category = require("../models/Category");
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const aws = require('aws-sdk');
 
 require('dotenv').config({ path: '../variables.env' });
 
@@ -14,11 +13,6 @@ const createToken = (user, token, expiresIn) => {
     const { id, email, name, lastname } = user;
     return jwt.sign({ id, email, name, lastname}, token, { expiresIn });
 }
-
-const awsS3Region = process.env.AWS_S3_REGION || 'us-east-2';
-const awsS3BucketName = process.env.AWS_S3_BUCKET_NAME || 'crmfilestorage';
-const awsS3AccessKeyID = process.env.AWS_ACCESS_KEY_ID;
-const awsS3SecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 
 // Resolvers
 const resolvers = {
@@ -210,37 +204,6 @@ const resolvers = {
         },
     },  
     Mutation: {
-        uploadFile: async (_, { input }) => {
-            const currentTime = new Date().getTime();
-            const mediaKey = `${currentTime}_${input.name}`;
-            const bodyParam = Buffer.from(new ArrayBuffer(16), 'binary');
-            let url;
-
-            const config = new aws.S3({
-                region: awsS3Region,
-                credentials: {
-                    destinationBucketName: awsS3BucketName,
-                    accessKeyId: awsS3AccessKeyID,
-                    secretAccessKey: awsS3SecretAccessKey,
-                },
-            });
-
-            try {
-                let params = {
-                    Bucket: awsS3BucketName,
-                    Key: mediaKey,
-                    ACL: 'public-read',
-                    ContentType: input.type,
-                    Body: bodyParam
-                }
-                await config.upload(params)
-                url = `https://${awsS3BucketName}.s3.us-east-2.amazonaws.com/${encodeURIComponent(mediaKey)}`;
-            } catch (err) {
-                console.log(err);
-                url = 'error'
-            }
-            return { url };
-        },
         newBlog: async (_, { input }) => {
             const newBlog = new Blog(input);
 

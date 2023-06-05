@@ -60,10 +60,6 @@ const typeDefs = gql`
         token: String
     }
 
-    type FileUploaded {
-        url: String
-    }
-
     type TopClients {
         total: Float
         client: [Client]
@@ -144,12 +140,6 @@ const typeDefs = gql`
         client: ID
         state: OrderState
     }
-
-    input FileInput {
-        name: String!
-        type: String!
-        size: Int!
-    }
     
     type Query {
         #Users
@@ -207,9 +197,6 @@ const typeDefs = gql`
         newBlog(input: BlogInput): Blog
         updateBlog(id: ID!, input: BlogInput): Blog
         deleteBlog(id: ID!): String
-
-        #Files
-        uploadFile(input: FileInput): FileUploaded!
     }
 `;
 
