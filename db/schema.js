@@ -10,6 +10,7 @@ const typeDefs = gql`
         summary: String
         createdOn: String
         category: [CatInput]
+        isFeatured: Boolean
     }
 
     type User {
@@ -84,7 +85,8 @@ const typeDefs = gql`
         content: String!
         summary: String!
         author: String
-        category: [CatInput]
+        category: [CatInput]!
+        isFeatured: Boolean!
     }
 
     input UserInput {
@@ -176,8 +178,9 @@ const typeDefs = gql`
         #Blogs
         getBlogs: [Blog]
         getBlogById(id: ID!): Blog
-        getLastBlogsByCat(cat: CatInput): [Blog]
+        getLastBlogsByCat(cat: CatInput, limit: Int): [Blog]
         getBlogCategories: [Categories]
+        getFeaturedPosts(limit: Int): [Blog]
     }
 
     type Mutation {

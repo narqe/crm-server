@@ -23,6 +23,11 @@ const BlogSchema = new mongoose.Schema({
         required: false,
         default: ['OTHER']
     },
+    isFeatured: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     createdOn: {
         type: Date,
         default: Date.now(),

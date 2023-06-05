@@ -92,7 +92,7 @@ const resolvers = {
         getOrderVendedor: async (_, {}, ctx) => {
             try {
                 const orders = await Order.find({ 
-                    salesman: ctx.user.id.toString()
+                    salesman: ctx.user?.id.toString()
                 }).populate('client');
                 return orders;
             } catch (error) {
@@ -181,13 +181,21 @@ const resolvers = {
                 console.log(error);
             }
         },
-        getLastBlogsByCat: async (_, { cat }) => {
+        getLastBlogsByCat: async (_, { cat, limit }) => {
             try {
-                const blog = await Blog.find({ category: cat }).limit(3);
+                const blog = await Blog.find({ category: cat }).limit(limit);
                 if(!blog) {
                     throw new Error(`category '${cat}' do not exist`)
                 }
                 return blog;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        getFeaturedPosts: async (_, { limit }) => {
+            try {
+                const featured = await Blog.find({ isFeatured: true }).limit(limit);
+                return featured;
             } catch (error) {
                 console.log(error);
             }
